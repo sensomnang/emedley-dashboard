@@ -72,14 +72,49 @@
             </div>
         </div>
     </div>
-        {{-- CHART --}}
-    <div class="panel mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h6 class="fw-bold mb-0">Attendance (Last 5 days)</h6>
-            <span class="badge-soft">Live data</span>
+    {{-- CHART + PROGRESS --}}
+    <div class="row g-3 mb-4">
+        <div class="col-lg-8">
+            <div class="panel h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold mb-0">Attendance (Last 5 days)</h6>
+                    <span class="badge-soft">Live data</span>
+                </div>
+                <div style="height: 280px;">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
         </div>
-        <div style="height: 280px;">
-            <canvas id="attendanceChart"></canvas>
+
+        <div class="col-lg-4">
+            <div class="panel h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="fw-bold mb-0">Teacher Satisfaction</h6>
+                    <i class="bi bi-three-dots text-muted"></i>
+                </div>
+
+                <div class="d-flex align-items-baseline gap-2 mb-4">
+                    <h2 class="fw-bold mb-0">{{ $satisfaction }}</h2>
+                    <span class="badge-soft">+4%</span>
+                    <small class="text-muted">Overall 55%</small>
+                </div>
+
+                @foreach ($progress as $item)
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small mb-1">
+                            <span class="text-muted">{{ $item['label'] }}</span>
+                            <span class="fw-semibold">{{ $item['value'] }}%</span>
+                        </div>
+                        <div class="progress progress-slim">
+                            <div class="progress-bar"
+                                 role="progressbar"
+                                 style="width: {{ $item['value'] }}%; background: {{ $item['color'] }};"
+                                 aria-valuenow="{{ $item['value'] }}" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 
@@ -110,10 +145,22 @@
                 <tbody>
                     @forelse ($students as $student)
                         <tr>
-                            <td class="fw-semibold">{{ $student->name }}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="avatar">{{ strtoupper(substr($student->name, 0, 1)) }}</div>
+                                    <span class="fw-semibold">{{ $student->name }}</span>
+                                </div>
+                            </td>
                             <td>{{ $student->student_code }}</td>
                             <td>{{ $student->group }}</td>
-                            <td>{{ $student->mark }}/100</td>
+                            <td style="min-width: 120px;">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress progress-slim flex-grow-1">
+                                        <div class="progress-bar" style="width: {{ $student->mark }}%; background: var(--green);"></div>
+                                    </div>
+                                    <small class="text-muted">{{ $student->mark }}</small>
+                                </div>
+                            </td>
                             <td>
                                 @php
                                     $color = match($student->status) {

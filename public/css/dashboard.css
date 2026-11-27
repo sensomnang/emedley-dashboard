@@ -239,3 +239,28 @@ body {
 
 .toast-success .toast-icon { color: #2f7d5b; font-size: 1.4rem; }
 .toast-error   .toast-icon { color: #e5484d; font-size: 1.4rem; }
+/* ===== Progress ===== */
+.progress-slim {
+    height: 8px;
+    border-radius: 10px;
+    background: #eef1ec;
+}
+
+.progress-slim .progress-bar {
+    border-radius: 10px;
+    transition: width 0.8s ease;
+}
+
+/* ===== Avatar ===== */
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--green-light);
+    color: var(--green);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}

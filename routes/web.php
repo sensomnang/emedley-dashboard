@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinancialController;
+use App\Http\Controllers\ImprovementController;
 use App\Http\Controllers\MasterInfoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -37,6 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('financial', FinancialController::class)
         ->parameters(['financial' => 'payment'])
         ->only(['index', 'store', 'update', 'destroy']);
+
+    // Improvement
+    Route::get('/improvement', [ImprovementController::class, 'index'])->name('improvement.index');
+    Route::post('/improvement', [ImprovementController::class, 'store'])->name('improvement.store');
 });
 
 require __DIR__.'/auth.php';

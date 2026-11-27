@@ -35,8 +35,11 @@
                 <a href="{{ route('financial.index') }}"
                     class="menu-item {{ request()->routeIs('financial.*') ? 'active' : '' }}">
                         <i class="bi bi-wallet2"></i> Financial
-                    </a>
-                <a href="#" class="menu-item"><i class="bi bi-graph-up-arrow"></i> Improvement</a>
+                </a>
+                <a href="{{ route('improvement.index') }}"
+                class="menu-item {{ request()->routeIs('improvement.*') ? 'active' : '' }}">
+                    <i class="bi bi-graph-up-arrow"></i> Improvement
+                </a>
                 <a href="#" class="menu-item"><i class="bi bi-book"></i> Course resources</a>
             </nav>
 

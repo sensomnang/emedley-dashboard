@@ -28,7 +28,10 @@
                    class="menu-item {{ request()->routeIs('students.*') ? 'active' : '' }}">
                     <i class="bi bi-people"></i> Students profile
                 </a>
-                <a href="#" class="menu-item"><i class="bi bi-person-badge"></i> Master info</a>
+                <a href="{{ route('master-info.index') }}"
+                    class="menu-item {{ request()->routeIs('master-info.*') ? 'active' : '' }}">
+                        <i class="bi bi-person-badge"></i> Master info
+                 </a>
                 <a href="#" class="menu-item"><i class="bi bi-wallet2"></i> Financial</a>
                 <a href="#" class="menu-item"><i class="bi bi-graph-up-arrow"></i> Improvement</a>
                 <a href="#" class="menu-item"><i class="bi bi-book"></i> Course resources</a>

@@ -1,14 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('dashboard', [
-        'totalStudents'  => 300,
-        'absentRate'     => 15,
-        'attendanceRate' => 15,
-        'satisfaction'   => 55,
-    ]);
-})->name('dashboard');
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    return redirect()->route('dashboard');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';

@@ -72,5 +72,108 @@
             </div>
         </div>
     </div>
+        {{-- CHART --}}
+    <div class="panel mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0">Attendance (Last 5 days)</h6>
+            <span class="badge-soft">Live data</span>
+        </div>
+        <div style="height: 280px;">
+            <canvas id="attendanceChart"></canvas>
+        </div>
+    </div>
+
+    {{-- STUDENT TABLE --}}
+    <div class="panel">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h6 class="fw-bold mb-0">Visualize Your Academic Success</h6>
+
+            <form method="GET" action="{{ route('dashboard') }}" class="d-flex gap-2">
+                <input type="text" name="search" value="{{ request('search') }}"
+                       class="form-control form-control-sm rounded-pill"
+                       placeholder="Search name or ID...">
+                <button class="btn btn-sm btn-success rounded-pill px-3">Search</button>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle table-borderless table-hover">
+                <thead class="text-muted small">
+                    <tr>
+                        <th>Name</th>
+                        <th>Student ID</th>
+                        <th>Group</th>
+                        <th>Mark-sheet</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($students as $student)
+                        <tr>
+                            <td class="fw-semibold">{{ $student->name }}</td>
+                            <td>{{ $student->student_code }}</td>
+                            <td>{{ $student->group }}</td>
+                            <td>{{ $student->mark }}/100</td>
+                            <td>
+                                @php
+                                    $color = match($student->status) {
+                                        'Active'   => 'success',
+                                        'Pending'  => 'warning',
+                                        default    => 'secondary',
+                                    };
+                                @endphp
+                                <span class="badge rounded-pill text-bg-{{ $color }}">{{ $student->status }}</span>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No students found</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <small class="text-muted">
+                Showing {{ $students->firstItem() ?? 0 }} - {{ $students->lastItem() ?? 0 }}
+                of {{ $students->total() }} students
+            </small>
+                        {{ $students->links() }}
+        </div>
+    </div>
 
 @endsection
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script>
+        const ctx = document.getElementById('attendanceChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($chartLabels),
+                datasets: [
+                    {
+                        label: 'Present',
+                        data: @json($chartPresent),
+                        backgroundColor: '#2f7d5b',
+                        borderRadius: 6,
+                    },
+                    {
+                        label: 'Absent / Leave',
+                        data: @json($chartAbsent),
+                        backgroundColor: '#f4a261',
+                        borderRadius: 6,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } },
+                scales: { y: { beginAtZero: true } },
+            },
+        });
+    </script>
+@endpush

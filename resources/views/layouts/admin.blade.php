@@ -61,7 +61,9 @@
                         <i class="bi bi-search"></i>
                         <input type="text" placeholder="Search...">
                     </div>
-                    <button class="icon-btn"><i class="bi bi-moon"></i></button>
+                    <button class="icon-btn" id="themeToggle" type="button" title="Toggle dark mode">
+                        <i class="bi bi-moon" id="themeIcon"></i>
+                    </button>
                     <button class="icon-btn"><i class="bi bi-bell"></i></button>
                     <div class="d-flex align-items-center gap-2">
                         <img src="https://png.pngtree.com/png-clipart/20241127/original/pngtree-cartoon-user-avatar-vector-png-image_17335631.png" class="rounded-circle" width="40" height="40" alt="user">
@@ -80,7 +82,40 @@
         </div>
     </div>
         <x-toast />
+<script>
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
 
+    function applyIcon() {
+        const dark = root.getAttribute('data-bs-theme') === 'dark';
+        icon.className = dark ? 'bi bi-sun' : 'bi bi-moon';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        const next = root.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-bs-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        applyIcon();
+        updateChartTheme();
+    });
+
+    applyIcon();
+
+    function updateChartTheme() {
+        if (typeof Chart === 'undefined') return;
+        const dark = root.getAttribute('data-bs-theme') === 'dark';
+        const color = dark ? '#9aa59d' : '#666';
+        const grid  = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+
+        Chart.defaults.color = color;
+        Chart.defaults.borderColor = grid;
+
+        Object.values(Chart.instances).forEach(chart => chart.update());
+    }
+
+    window.addEventListener('load', updateChartTheme);
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>

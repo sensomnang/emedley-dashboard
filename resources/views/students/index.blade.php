@@ -65,7 +65,12 @@
                                       onsubmit="return confirm('Delete {{ $student->name }}?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-light text-danger">
+                                    <button type="button"
+                                            class="btn btn-sm btn-light text-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-name="{{ $student->name }}"
+                                            data-url="{{ route('students.destroy', $student) }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </form>
@@ -88,4 +93,5 @@
             {{ $students->links('pagination::bootstrap-5') }}
         </div>
     </div>
+        <x-delete-modal />
 @endsection

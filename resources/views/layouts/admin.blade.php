@@ -64,7 +64,7 @@
                     <button class="icon-btn"><i class="bi bi-moon"></i></button>
                     <button class="icon-btn"><i class="bi bi-bell"></i></button>
                     <div class="d-flex align-items-center gap-2">
-                        <img src="https://i.pravatar.cc/40" class="rounded-circle" width="40" height="40" alt="user">
+                        <img src="https://png.pngtree.com/png-clipart/20241127/original/pngtree-cartoon-user-avatar-vector-png-image_17335631.png" class="rounded-circle" width="40" height="40" alt="user">
                         <div class="lh-1">
                             <div class="fw-semibold small">{{ Auth::user()->name }}</div>
                             <small class="text-muted">{{ Auth::user()->email }}</small>
@@ -79,6 +79,7 @@
             </main>
         </div>
     </div>
+        <x-toast />
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')

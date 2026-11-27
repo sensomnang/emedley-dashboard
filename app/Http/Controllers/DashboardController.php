@@ -36,11 +36,18 @@ class DashboardController extends Controller
             ->latest('id')
             ->paginate(8)
             ->withQueryString();
+            // ===== Teacher satisfaction (progress bars) =====
+            $progress = [
+                ['label' => 'Punctuality', 'value' => 85, 'color' => '#2f7d5b'],
+                ['label' => 'Performance', 'value' => 72, 'color' => '#f4a261'],
+                ['label' => 'Teaching',    'value' => 90, 'color' => '#222222'],
+                ['label' => 'Support',     'value' => 64, 'color' => '#28c76f'],
+            ];
 
         return view('dashboard', compact(
             'totalStudents', 'absentRate', 'attendanceRate', 'satisfaction',
             'chartLabels', 'chartPresent', 'chartAbsent',
-            'students'
+            'students', 'progress'
         ));
     }
 }
